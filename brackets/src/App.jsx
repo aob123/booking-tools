@@ -1,10 +1,92 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { useState, useEffect } from "react";
+import Match from "./components/brackets/Match";
+import Connector from "./components/brackets/Connector";
+import BracketGrid from "./components/BracketGrid";
 import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  let matches = [];
+  let teams = [
+    "Andy",
+    "Ben",
+    "Chris",
+    "Dave",
+    "Eric",
+    "Fred",
+    "George",
+    "Harry",
+  ];
+
+  //Generate matches from number of teams
+  const generateMatches = (arrTeams, arrMatches) => {
+    for (let i = 0; i < arrTeams.length; i++) {
+      if (i % 2 === 0) {
+        let match = {
+          matchId: i / 2 + 1,
+          team_1: arrTeams[i],
+          team_2: arrTeams[i + 1],
+        };
+
+        arrMatches.push(match);
+      }
+    }
+  };
+
+  generateMatches(teams, matches);
+  console.log(matches);
+
+  //Calculate number of total matches
+  const numberOfMatches = (arrMatches) => {
+    console.log(arrMatches.length);
+
+    if (arrMatches.length <= 4) {
+      return arrMatches.push(
+        {
+          matchId: "semiFinal-1",
+          team_1: "",
+          team_2: "",
+        },
+        {
+          matchId: "semiFinal-2",
+          team_1: "",
+          team_2: "",
+        },
+        {
+          matchId: "final",
+          team_1: "",
+          team_2: "",
+        }
+      );
+    } else {
+      arrMatches.push(
+        {
+          matchId: "semiFinal-1",
+          team_1: "",
+          team_2: "",
+        },
+        {
+          matchId: "semiFinal-2",
+          team_1: "",
+          team_2: "",
+        },
+        {
+          matchId: "final",
+          team_1: "",
+          team_2: "",
+        }
+      );
+    }
+  };
+
+  numberOfMatches(matches);
+  console.log("MATCHES", matches);
+
+  //Calculate number of connectors
+  let numberOfConnectors = (arr) => {
+    return (arr.length - 1) / 2;
+  };
+
+  console.log(numberOfConnectors(matches));
 
   return (
     <>
@@ -17,56 +99,7 @@ function App() {
       </nav>
       <main>
         <div className="bracketView">
-          <div className="bracketGrid">
-            <div className="match match-1">
-              <div className="team-1">
-                <p>1. Sven</p>
-              </div>
-              <div className="team-2">
-                <p>2. Dave</p>
-              </div>
-            </div>
-            <div className="match match-2">
-              <div className="team-1">
-                <p>1. Pete</p>
-              </div>
-              <div className="team-2">
-                <p>2. John</p>
-              </div>
-            </div>
-            <div className="match match-3">
-              <div className="team-1">
-                <p>1. Mick</p>
-              </div>
-              <div className="team-2">
-                <p>2.Tina</p>
-              </div>
-            </div>
-            <div className="match match-4">
-              <div className="team-1">
-                <p>1. Lucy</p>
-              </div>
-              <div className="team-2">
-                <p>2. Roger</p>
-              </div>
-            </div>
-            <div className="match match-5">
-              <div className="team-1">
-                <p>1. Angela</p>
-              </div>
-              <div className="team-2">
-                <p>2. Michael</p>
-              </div>
-            </div>
-            <div className="match match-6">
-              <div className="team-1">
-                <p>1. Andy</p>
-              </div>
-              <div className="team-2">
-                <p>2. Jenny</p>
-              </div>
-            </div>
-          </div>
+          <BracketGrid matches={matches} />
         </div>
       </main>
     </>
